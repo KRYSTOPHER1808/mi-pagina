@@ -67,13 +67,13 @@
             margin-top: 20px;
             border: none;
             border-radius: 5px;
+            cursor: pointer;
         }
 
         .button:hover {
             background-color: #45a049;
         }
 
-        /* Estilo para la ventana modal */
         .modal {
             display: none;
             position: fixed;
@@ -94,7 +94,7 @@
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
-            max-width: 800px;
+            max-width: 700px;
             border-radius: 10px;
         }
 
@@ -112,7 +112,6 @@
             cursor: pointer;
         }
 
-        /* Estilo para la tabla */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -136,9 +135,17 @@
             color: white;
         }
 
-        .table-container {
+        tbody {
+            display: block;
             max-height: 300px;
             overflow-y: auto;
+        }
+
+        thead,
+        tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
         }
     </style>
 </head>
@@ -155,74 +162,112 @@
             <a href="login.html" class="logout">Cerrar Sesión</a>
         </nav>
     </header>
-
     <div class="container">
         <h1>Calificaciones</h1>
         <p>¿Qué desea realizar?</p>
-        <button class="button" id="openModalBtn">Subir Calificaciones</button>
+        <button id="openModalBtn" class="button">Subir Calificaciones</button>
+        <button id="openListarModalBtn" class="button">Listar Calificaciones</button>
 
-        <!-- Modal -->
-        <div id="myModal" class="modal">
+        <div id="subirCalificacionesModal" class="modal">
             <div class="modal-content">
                 <span class="close" id="closeModalBtn">&times;</span>
                 <h2>Subir Calificaciones</h2>
                 <div>
-                    <label for="curso">Seleccionar Curso</label>
-                    <select id="curso">
-                        <option value="curso1">Curso 1</option>
-                        <option value="curso2">Curso 2</option>
+                    <label for="cursoSelect">Seleccionar Curso</label>
+                    <select id="cursoSelect">
+                        <option value="Curso 1">Curso 1</option>
+                        <option value="Curso 2">Curso 2</option>
                     </select>
-                    <label for="rubro">Seleccionar Rubro</label>
-                    <select id="rubro">
-                        <option value="practicas">Prácticas</option>
-                        <option value="examen_final">Examen Final</option>
+                    <label for="aulaSelect">Seleccionar Aula</label>
+                    <select id="aulaSelect">
+                        <option value="Aula 101">Aula 101</option>
+                        <option value="Aula 102">Aula 102</option>
                     </select>
-                    <button class="button" id="mostrarAlumnosBtn">Mostrar Alumnos</button>
+                    <label for="rubroSelect">Seleccionar Rubro</label>
+                    <select id="rubroSelect">
+                        <option value="Prácticas">Prácticas</option>
+                        <option value="Examen Final">Examen Final</option>
+                    </select>
+                    <button id="mostrarAlumnosBtn" class="button">Mostrar Alumnos</button>
                 </div>
 
-                <div class="table-container">
-                    <table id="alumnosTable">
-                        <thead>
-                            <tr>
-                                <th>Código Alumno</th>
-                                <th>Nombre</th>
-                                <th>Calificación</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>A001</td>
-                                <td>Juan Pérez</td>
-                                <td><input type="text" value="Ingresar calificación"></td>
-                                <td><button class="button">Editar</button></td>
-                            </tr>
-                            <tr>
-                                <td>A002</td>
-                                <td>María López</td>
-                                <td><input type="text" value="Ingresar calificación"></td>
-                                <td><button class="button">Editar</button></td>
-                            </tr>
-                            <tr>
-                                <td>A003</td>
-                                <td>Carlos García</td>
-                                <td><input type="text" value="Ingresar calificación"></td>
-                                <td><button class="button">Editar</button></td>
-                            </tr>
-                            <!-- Más filas pueden ser añadidas aquí -->
-                        </tbody>
-                    </table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código Alumno</th>
+                            <th>Nombre</th>
+                            <th>Calificación</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="alumnosTableBody">
+                        <tr>
+                            <td>A001</td>
+                            <td>Juan Pérez</td>
+                            <td><input type="text" placeholder="Ingresar calificación"></td>
+                            <td><button class="button">Editar</button></td>
+                        </tr>
+                        <tr>
+                            <td>A002</td>
+                            <td>María López</td>
+                            <td><input type="text" placeholder="Ingresar calificación"></td>
+                            <td><button class="button">Editar</button></td>
+                        </tr>
+                        <tr>
+                            <td>A003</td>
+                            <td>Carlos García</td>
+                            <td><input type="text" placeholder="Ingresar calificación"></td>
+                            <td><button class="button">Editar</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="button" id="subirCalificacionesBtn">Subir Calificaciones</button>
+            </div>
+        </div>
+
+        <div id="listarCalificacionesModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeListarModalBtn">&times;</span>
+                <h2>Listar Calificaciones</h2>
+                <div>
+                    <label for="cursoListarSelect">Seleccionar Curso</label>
+                    <select id="cursoListarSelect">
+                        <option value="Curso 1">Curso 1</option>
+                        <option value="Curso 2">Curso 2</option>
+                    </select>
+                    <label for="aulaListarSelect">Seleccionar Aula</label>
+                    <select id="aulaListarSelect">
+                        <option value="Aula 101">Aula 101</option>
+                        <option value="Aula 102">Aula 102</option>
+                    </select>
+                    <button id="listarCalificacionesBtn" class="button">Mostrar Calificaciones</button>
                 </div>
-                <button class="button">Subir Calificaciones</button>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código Alumno</th>
+                            <th>Nombre</th>
+                            <th>Notas</th>
+                            <th>Promedio Final</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calificacionesTableBody">
+                        <!-- Las filas se agregarán dinámicamente -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
     <script>
-        // Modal functionality
-        var modal = document.getElementById("myModal");
+        var modal = document.getElementById("subirCalificacionesModal");
         var openModalBtn = document.getElementById("openModalBtn");
         var closeModalBtn = document.getElementById("closeModalBtn");
+
+        var listarModal = document.getElementById("listarCalificacionesModal");
+        var openListarModalBtn = document.getElementById("openListarModalBtn");
+        var closeListarModalBtn = document.getElementById("closeListarModalBtn");
 
         openModalBtn.onclick = function () {
             modal.style.display = "block";
@@ -232,10 +277,55 @@
             modal.style.display = "none";
         }
 
+        openListarModalBtn.onclick = function () {
+            listarModal.style.display = "block";
+        }
+
+        closeListarModalBtn.onclick = function () {
+            listarModal.style.display = "none";
+        }
+
         window.onclick = function (event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
+            if (event.target == listarModal) {
+                listarModal.style.display = "none";
+            }
+        }
+
+        document.getElementById('listarCalificacionesBtn').onclick = function () {
+            var tableBody = document.getElementById('calificacionesTableBody');
+            tableBody.innerHTML = ''; // Limpiar la tabla antes de llenarla
+
+            // Ejemplo de cómo se podrían llenar las calificaciones
+            var alumnos = [
+                { codigo: 'A001', nombre: 'Juan Pérez', notas: [15, 18, 20], promedio: 17.66 },
+                { codigo: 'A002', nombre: 'María López', notas: [14, 17, 19], promedio: 16.66 },
+                { codigo: 'A003', nombre: 'Carlos García', notas: [13, 15, 17], promedio: 15 }
+            ];
+
+            alumnos.forEach(function (alumno) {
+                var row = document.createElement('tr');
+
+                var codigoCell = document.createElement('td');
+                codigoCell.textContent = alumno.codigo;
+                row.appendChild(codigoCell);
+
+                var nombreCell = document.createElement('td');
+                nombreCell.textContent = alumno.nombre;
+                row.appendChild(nombreCell);
+
+                var notasCell = document.createElement('td');
+                notasCell.textContent = alumno.notas.join(', ');
+                row.appendChild(notasCell);
+
+                var promedioCell = document.createElement('td');
+                promedioCell.textContent = alumno.promedio.toFixed(2);
+                row.appendChild(promedioCell);
+
+                tableBody.appendChild(row);
+            });
         }
     </script>
 </body>
