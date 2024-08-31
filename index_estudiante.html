@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio Estudiante</title>
+    <title>Panel del Estudiante</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,6 +12,7 @@
             margin: 0;
             padding: 0;
         }
+
         header {
             background-color: #0066cc;
             color: white;
@@ -19,16 +21,19 @@
             justify-content: space-between;
             align-items: center;
         }
+
         header a {
             color: white;
             text-decoration: none;
             font-size: 20px;
             font-weight: bold;
         }
+
         nav {
             display: flex;
             gap: 15px;
         }
+
         nav a {
             color: white;
             text-decoration: none;
@@ -38,24 +43,104 @@
             border-radius: 5px;
             background-color: #004080;
         }
+
         nav a:hover {
             background-color: #003366;
         }
+
         .container {
-            text-align: center;
-            margin-top: 50px;
+            padding: 20px;
         }
-        .container h1 {
-            font-size: 36px;
+
+        h1 {
             color: #004080;
-            margin-bottom: 20px;
         }
-        .container p {
-            font-size: 18px;
-            color: #333;
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #004080;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #004080;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
         }
     </style>
 </head>
+
 <body>
     <header>
         <a href="index_estudiante.html">Panel del Estudiante</a>
@@ -67,7 +152,92 @@
     </header>
     <div class="container">
         <h1>Bienvenido, Estudiante</h1>
-        <p>Seleccione una opción en la parte superior derecha para comenzar.</p>
+        <p>Seleccione una opción en la parte superior para comenzar.</p>
+
+        <h2>Cursos Inscritos:</h2>
+        <table id="coursesTable">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Aula</th>
+                    <th>Sección</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Ejemplo de fila, puedes replicar o generar dinámicamente en la práctica -->
+                <tr>
+                    <td>CS101</td>
+                    <td>Introducción a la Computación</td>
+                    <td>Aula 101</td>
+                    <td>A</td>
+                </tr>
+                <tr>
+                    <td>CS102</td>
+                    <td>Estructura de Datos</td>
+                    <td>Aula 102</td>
+                    <td>B</td>
+                </tr>
+                <!-- Más filas aquí -->
+            </tbody>
+        </table>
+
+        <button class="button" id="openModalBtn">Ingresar a Curso</button>
+
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeModalBtn">&times;</span>
+                <h2>Ingresar a Curso</h2>
+                <input type="text" id="courseCodeInput" placeholder="Ingrese el código del curso">
+                <button class="button" id="enterCourseBtn">Ingresar</button>
+                <p id="errorMessage" class="error" style="display: none;">El código es incorrecto. Inténtelo nuevamente.
+                </p>
+            </div>
+        </div>
     </div>
+
+    <script>
+        // Modal functionality
+        var modal = document.getElementById("myModal");
+        var openModalBtn = document.getElementById("openModalBtn");
+        var closeModalBtn = document.getElementById("closeModalBtn");
+        var enterCourseBtn = document.getElementById("enterCourseBtn");
+        var errorMessage = document.getElementById("errorMessage");
+
+        openModalBtn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        closeModalBtn.onclick = function () {
+            modal.style.display = "none";
+            errorMessage.style.display = "none"; // Hide error message when closing
+        }
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                errorMessage.style.display = "none"; // Hide error message when clicking outside
+            }
+        }
+
+        enterCourseBtn.onclick = function () {
+            var courseCode = document.getElementById("courseCodeInput").value;
+
+            // Aquí debes implementar la lógica para verificar el código del curso
+            // Este es un ejemplo básico que siempre dará error. Deberías reemplazarlo con tu lógica.
+            if (courseCode !== "CS101") {
+                errorMessage.style.display = "block";
+            } else {
+                // Aquí deberías agregar la lógica para actualizar la tabla con el nuevo curso
+                var table = document.getElementById("coursesTable").getElementsByTagName('tbody')[0];
+                var newRow = table.insertRow();
+                newRow.innerHTML = "<td>" + courseCode + "</td><td>Nombre del Curso</td><td>Aula XYZ</td><td>Sección 1</td>";
+
+                modal.style.display = "none";
+                errorMessage.style.display = "none"; // Hide error message after successful addition
+            }
+        }
+    </script>
 </body>
+
 </html>

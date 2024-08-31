@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calificaciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #0066cc;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #004080;
+        }
+
+        nav a:hover {
+            background-color: #003366;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            color: #004080;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 200px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #004080;
+            color: white;
+        }
+
+        td input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        td button {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        td button:hover {
+            background-color: #45a049;
+        }
+
+        #subirCalificaciones {
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        #subirCalificaciones:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index_profesor.html">Panel del Profesor</a>
+        <nav>
+            <a href="crear_curso.html">Crear Curso</a>
+            <a href="definir_rubros.html">Definir Rubros</a>
+            <a href="calificaciones.html">Calificaciones</a>
+            <a href="generar_reporte.html">Generar Reporte</a>
+            <a href="subir_materiales.html">Subir Materiales</a>
+            <a href="login.html" class="logout">Cerrar Sesión</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Calificaciones</h1>
+        <p>¿Qué desea realizar?</p>
+        <button id="btnSubirCalificaciones">Subir Calificaciones</button>
+    </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Subir Calificaciones</h2>
+            <label for="curso">Seleccionar Curso</label>
+            <select id="curso">
+                <option value="curso1">Curso 1</option>
+                <!-- Otras opciones de cursos -->
+            </select>
+
+            <label for="rubro">Seleccionar Rubro</label>
+            <select id="rubro">
+                <option value="practicas">Prácticas</option>
+                <option value="examen_final">Examen Final</option>
+                <!-- Otras opciones de rubros -->
+            </select>
+
+            <button id="mostrarAlumnos">Mostrar Alumnos</button>
+
+            <table id="tablaAlumnos">
+                <thead>
+                    <tr>
+                        <th>Código Alumno</th>
+                        <th>Nombre</th>
+                        <th>Calificación</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>A001</td>
+                        <td>Juan Pérez</td>
+                        <td><input type="text" placeholder="Ingrese calificación"></td>
+                        <td><button>Editar</button></td>
+                    </tr>
+                    <tr>
+                        <td>A002</td>
+                        <td>María López</td>
+                        <td><input type="text" placeholder="Ingrese calificación"></td>
+                        <td><button>Editar</button></td>
+                    </tr>
+                    <tr>
+                        <td>A003</td>
+                        <td>Carlos García</td>
+                        <td><input type="text" placeholder="Ingrese calificación"></td>
+                        <td><button>Editar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button id="subirCalificaciones">Subir Calificaciones</button>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById("myModal");
+        const btn = document.getElementById("btnSubirCalificaciones");
+        const span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Aquí puedes agregar el código para manejar la lógica de los botones dentro de la ventana modal
+    </script>
+</body>
+
+</html>
