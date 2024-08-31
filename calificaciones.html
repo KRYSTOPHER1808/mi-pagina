@@ -56,21 +56,24 @@
             color: #004080;
         }
 
-        button {
-            padding: 10px 20px;
+        .button {
             background-color: #4CAF50;
             color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
             border: none;
-            cursor: pointer;
             border-radius: 5px;
-            width: 200px;
-            margin-top: 10px;
         }
 
-        button:hover {
+        .button:hover {
             background-color: #45a049;
         }
 
+        /* Estilo para la ventana modal */
         .modal {
             display: none;
             position: fixed;
@@ -91,6 +94,8 @@
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
+            max-width: 800px;
+            border-radius: 10px;
         }
 
         .close {
@@ -107,6 +112,7 @@
             cursor: pointer;
         }
 
+        /* Estilo para la tabla */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -116,12 +122,12 @@
         table,
         th,
         td {
-            border: 1px solid #ddd;
+            border: 1px solid #004080;
         }
 
         th,
         td {
-            padding: 8px;
+            padding: 10px;
             text-align: left;
         }
 
@@ -130,38 +136,9 @@
             color: white;
         }
 
-        td input[type="text"] {
-            width: 100%;
-            padding: 5px;
-            box-sizing: border-box;
-        }
-
-        td button {
-            padding: 5px 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        td button:hover {
-            background-color: #45a049;
-        }
-
-        #subirCalificaciones {
-            margin-top: 20px;
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        #subirCalificaciones:hover {
-            background-color: #45a049;
+        .table-container {
+            max-height: 300px;
+            overflow-y: auto;
         }
     </style>
 </head>
@@ -178,77 +155,80 @@
             <a href="login.html" class="logout">Cerrar Sesión</a>
         </nav>
     </header>
+
     <div class="container">
         <h1>Calificaciones</h1>
         <p>¿Qué desea realizar?</p>
-        <button id="btnSubirCalificaciones">Subir Calificaciones</button>
-    </div>
+        <button class="button" id="openModalBtn">Subir Calificaciones</button>
 
-    <!-- Modal -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Subir Calificaciones</h2>
-            <label for="curso">Seleccionar Curso</label>
-            <select id="curso">
-                <option value="curso1">Curso 1</option>
-                <!-- Otras opciones de cursos -->
-            </select>
+        <!-- Modal -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeModalBtn">&times;</span>
+                <h2>Subir Calificaciones</h2>
+                <div>
+                    <label for="curso">Seleccionar Curso</label>
+                    <select id="curso">
+                        <option value="curso1">Curso 1</option>
+                        <option value="curso2">Curso 2</option>
+                    </select>
+                    <label for="rubro">Seleccionar Rubro</label>
+                    <select id="rubro">
+                        <option value="practicas">Prácticas</option>
+                        <option value="examen_final">Examen Final</option>
+                    </select>
+                    <button class="button" id="mostrarAlumnosBtn">Mostrar Alumnos</button>
+                </div>
 
-            <label for="rubro">Seleccionar Rubro</label>
-            <select id="rubro">
-                <option value="practicas">Prácticas</option>
-                <option value="examen_final">Examen Final</option>
-                <!-- Otras opciones de rubros -->
-            </select>
-
-            <button id="mostrarAlumnos">Mostrar Alumnos</button>
-
-            <table id="tablaAlumnos">
-                <thead>
-                    <tr>
-                        <th>Código Alumno</th>
-                        <th>Nombre</th>
-                        <th>Calificación</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>A001</td>
-                        <td>Juan Pérez</td>
-                        <td><input type="text" placeholder="Ingrese calificación"></td>
-                        <td><button>Editar</button></td>
-                    </tr>
-                    <tr>
-                        <td>A002</td>
-                        <td>María López</td>
-                        <td><input type="text" placeholder="Ingrese calificación"></td>
-                        <td><button>Editar</button></td>
-                    </tr>
-                    <tr>
-                        <td>A003</td>
-                        <td>Carlos García</td>
-                        <td><input type="text" placeholder="Ingrese calificación"></td>
-                        <td><button>Editar</button></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <button id="subirCalificaciones">Subir Calificaciones</button>
+                <div class="table-container">
+                    <table id="alumnosTable">
+                        <thead>
+                            <tr>
+                                <th>Código Alumno</th>
+                                <th>Nombre</th>
+                                <th>Calificación</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>A001</td>
+                                <td>Juan Pérez</td>
+                                <td><input type="text" value="Ingresar calificación"></td>
+                                <td><button class="button">Editar</button></td>
+                            </tr>
+                            <tr>
+                                <td>A002</td>
+                                <td>María López</td>
+                                <td><input type="text" value="Ingresar calificación"></td>
+                                <td><button class="button">Editar</button></td>
+                            </tr>
+                            <tr>
+                                <td>A003</td>
+                                <td>Carlos García</td>
+                                <td><input type="text" value="Ingresar calificación"></td>
+                                <td><button class="button">Editar</button></td>
+                            </tr>
+                            <!-- Más filas pueden ser añadidas aquí -->
+                        </tbody>
+                    </table>
+                </div>
+                <button class="button">Subir Calificaciones</button>
+            </div>
         </div>
     </div>
 
     <script>
-        const modal = document.getElementById("myModal");
-        const btn = document.getElementById("btnSubirCalificaciones");
-        const span = document.getElementsByClassName("close")[0];
+        // Modal functionality
+        var modal = document.getElementById("myModal");
+        var openModalBtn = document.getElementById("openModalBtn");
+        var closeModalBtn = document.getElementById("closeModalBtn");
 
-        btn.onclick = function () {
+        openModalBtn.onclick = function () {
             modal.style.display = "block";
         }
 
-        span.onclick = function () {
+        closeModalBtn.onclick = function () {
             modal.style.display = "none";
         }
 
@@ -257,8 +237,6 @@
                 modal.style.display = "none";
             }
         }
-
-        // Aquí puedes agregar el código para manejar la lógica de los botones dentro de la ventana modal
     </script>
 </body>
 
