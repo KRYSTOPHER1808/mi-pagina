@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generar Reporte</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #0066cc;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #004080;
+        }
+
+        nav a:hover {
+            background-color: #003366;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            color: #004080;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 10px;
+            background-color: #e6e6e6;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ccc;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #004080;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html">Panel del Profesor</a> <!-- Enlace al inicio -->
+        <nav>
+            <a href="crear_curso.html">Crear Curso</a>
+            <a href="definir_rubros.html">Definir Rubros</a>
+            <a href="subir_calificaciones.html">Subir Calificaciones</a>
+            <a href="generar_reporte.html">Generar Reporte</a>
+            <a href="subir_materiales.html">Subir Materiales</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Generar Reporte</h1>
+        <form id="generarReporteForm">
+            <label for="curso">Seleccionar Curso</label>
+            <select id="curso">
+                <option value="1">Curso 1</option>
+                <option value="2">Curso 2</option>
+            </select>
+
+            <button type="submit">Generar Reporte</button>
+        </form>
+
+        <div class="results">
+            <h3>Reportes Generados:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Número de Reporte</th>
+                        <th>Curso</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="reportesList"></tbody>
+            </table>
+        </div>
+
+        <script>
+            const reportes = [];
+            let reporteId = 1;
+
+            document.getElementById('generarReporteForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const curso = document.getElementById('curso').value;
+                const fecha = new Date().toLocaleDateString();
+
+                const reporte = {
+                    id: reporteId++,
+                    curso: curso,
+                    fecha: fecha
+                };
+
+                reportes.push(reporte);
+                actualizarListaReportes();
+            });
+
+            function actualizarListaReportes() {
+                const lista = document.getElementById('reportesList');
+                lista.innerHTML = '';
+
+                reportes.forEach(reporte => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${reporte.id}</td>
+                        <td>${reporte.curso}</td>
+                        <td>${reporte.fecha}</td>
+                        <td><button onclick="descargarExcel(${reporte.id})">Descargar Excel</button></td>
+                    `;
+                    lista.appendChild(tr);
+                });
+            }
+
+            function descargarExcel(reporteId) {
+                alert('Descargando el reporte en formato Excel: ' + reporteId);
+                // Aquí puedes integrar la funcionalidad real para generar y descargar un archivo Excel.
+            }
+        </script>
+    </div>
+</body>
+
+</html>

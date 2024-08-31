@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar Calificaciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #0066cc;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #004080;
+        }
+        nav a:hover {
+            background-color: #003366;
+        }
+        .container {
+            padding: 20px;
+        }
+        h1 {
+            color: #004080;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #333;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .results {
+            margin-top: 30px;
+            padding: 10px;
+            background-color: #e6e6e6;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #004080;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index_estudiante.html">Panel del Estudiante</a>
+        <nav>
+            <a href="consultar_calificaciones.html">Consultar Calificaciones</a>
+            <a href="calcular_notas.html">Calcular Notas</a>
+            <a href="descargar_materiales.html">Descargar Materiales</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Consultar Calificaciones</h1>
+        <form id="consultarCalificacionesForm">
+            <label for="curso">Seleccionar Curso</label>
+            <select id="curso">
+                <option value="1">Curso 1</option>
+                <option value="2">Curso 2</option>
+                <!-- Aquí se pueden agregar más cursos dinámicamente -->
+            </select>
+
+            <button type="submit">Consultar</button>
+        </form>
+
+        <div class="results">
+            <h3>Calificaciones:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rubro</th>
+                        <th>Calificación</th>
+                        <th>Porcentaje</th>
+                        <th>Promedio Final</th>
+                    </tr>
+                </thead>
+                <tbody id="calificacionesList"></tbody>
+            </table>
+        </div>
+
+        <script>
+            document.getElementById('consultarCalificacionesForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // Datos simulados
+                const calificaciones = [
+                    { rubro: 'Prácticas', calificacion: 85, porcentaje: '40%', promedio: 34 },
+                    { rubro: 'Examen Final', calificacion: 90, porcentaje: '60%', promedio: 54 }
+                ];
+
+                const calificacionesList = document.getElementById('calificacionesList');
+                calificacionesList.innerHTML = ''; // Limpiar la lista de calificaciones
+
+                let promedioTotal = 0;
+
+                calificaciones.forEach(c => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${c.rubro}</td><td>${c.calificacion}</td><td>${c.porcentaje}</td><td>${c.promedio}</td>`;
+                    calificacionesList.appendChild(tr);
+                    promedioTotal += c.promedio;
+                });
+
+                const trFinal = document.createElement('tr');
+                trFinal.innerHTML = `<td colspan="3"><strong>Promedio Total</strong></td><td><strong>${promedioTotal}</strong></td>`;
+                calificacionesList.appendChild(trFinal);
+            });
+        </script>
+    </div>
+</body>
+</html>

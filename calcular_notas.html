@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcular Notas Necesarias</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #0066cc;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #004080;
+        }
+        nav a:hover {
+            background-color: #003366;
+        }
+        .container {
+            padding: 20px;
+        }
+        h1 {
+            color: #004080;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #333;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .results {
+            margin-top: 30px;
+            padding: 10px;
+            background-color: #e6e6e6;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #004080;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index_estudiante.html">Panel del Estudiante</a>
+        <nav>
+            <a href="consultar_calificaciones.html">Consultar Calificaciones</a>
+            <a href="calcular_notas.html">Calcular Notas</a>
+            <a href="descargar_materiales.html">Descargar Materiales</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Calcular Notas Necesarias</h1>
+        <form id="calcularNotasForm">
+            <label for="curso">Seleccionar Curso</label>
+            <select id="curso">
+                <option value="1">Curso 1</option>
+                <option value="2">Curso 2</option>
+                <!-- Aquí se pueden agregar más cursos dinámicamente -->
+            </select>
+
+            <button type="submit">Calcular</button>
+        </form>
+
+        <div class="results">
+            <h3>Notas Actuales:</h3>
+            <table id="notasActualesTable">
+                <thead>
+                    <tr>
+                        <th>Rubro</th>
+                        <th>Calificación</th>
+                        <th>Porcentaje</th>
+                    </tr>
+                </thead>
+                <tbody id="notasActualesList"></tbody>
+            </table>
+        </div>
+
+        <div class="results" style="margin-top: 20px;">
+            <h3>Notas Necesarias:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rubro</th>
+                        <th>Calificación Necesaria</th>
+                    </tr>
+                </thead>
+                <tbody id="notasNecesariasList"></tbody>
+            </table>
+        </div>
+
+        <script>
+            const datosSimulados = {
+                "1": [
+                    { rubro: 'Prácticas', calificacion: 70, porcentaje: 40 },
+                    { rubro: 'Examen Final', calificacion: 0, porcentaje: 60 }
+                ],
+                "2": [
+                    { rubro: 'Trabajos', calificacion: 80, porcentaje: 50 },
+                    { rubro: 'Proyecto Final', calificacion: 0, porcentaje: 50 }
+                ]
+            };
+
+            document.getElementById('calcularNotasForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const curso = document.getElementById('curso').value;
+                const notasActuales = datosSimulados[curso] || [];
+
+                const notasActualesList = document.getElementById('notasActualesList');
+                const notasNecesariasList = document.getElementById('notasNecesariasList');
+
+                notasActualesList.innerHTML = '';
+                notasNecesariasList.innerHTML = '';
+
+                let sumaPromedio = 0;
+
+                notasActuales.forEach(nota => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${nota.rubro}</td><td>${nota.calificacion}</td><td>${nota.porcentaje}%</td>`;
+                    notasActualesList.appendChild(tr);
+
+                    sumaPromedio += (nota.calificacion * nota.porcentaje) / 100;
+                });
+
+                const notaMinimaParaAprobar = 51;
+
+                notasActuales.forEach(nota => {
+                    if (nota.calificacion === 0) { // Asumiendo que los rubros con calificación 0 son los no evaluados
+                        const notaNecesaria = (notaMinimaParaAprobar - sumaPromedio) / (nota.porcentaje / 100);
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `<td>${nota.rubro}</td><td>${notaNecesaria.toFixed(2)}</td>`;
+                        notasNecesariasList.appendChild(tr);
+                    }
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>

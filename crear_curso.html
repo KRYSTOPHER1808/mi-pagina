@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Curso</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #0066cc;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #004080;
+        }
+
+        nav a:hover {
+            background-color: #003366;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            color: #004080;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 10px;
+            background-color: #e6e6e6;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ccc;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #004080;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html">Panel del Profesor</a> <!-- Enlace al inicio -->
+        <nav>
+            <a href="crear_curso.html">Crear Curso</a>
+            <a href="definir_rubros.html">Definir Rubros</a>
+            <a href="subir_calificaciones.html">Subir Calificaciones</a>
+            <a href="generar_reporte.html">Generar Reporte</a>
+            <a href="subir_materiales.html">Subir Materiales</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Crear Curso</h1>
+        <form id="crearCursoForm">
+            <label for="codigoCurso">Código del Curso</label>
+            <input type="text" id="codigoCurso" required>
+
+            <label for="nombreCurso">Nombre del Curso</label>
+            <input type="text" id="nombreCurso" required>
+
+            <label for="aula">Aula</label>
+            <input type="text" id="aula" required>
+
+            <label for="seccion">Sección</label>
+            <input type="text" id="seccion" required>
+
+            <label for="silabo">Subir Sílabus</label>
+            <input type="file" id="silabo" accept="application/pdf" required>
+
+            <button type="submit">Agregar Curso</button>
+        </form>
+
+        <div class="results">
+            <h3>Cursos Creados:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Aula</th>
+                        <th>Sección</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="cursosList"></tbody>
+            </table>
+        </div>
+
+        <!-- Modal para editar curso -->
+        <div id="editarCursoModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Editar Curso</h2>
+                <label for="editarAula">Modificar Aula</label>
+                <input type="text" id="editarAula" required>
+
+                <label for="editarSeccion">Modificar Sección</label>
+                <input type="text" id="editarSeccion" required>
+
+                <label for="nuevoSilabo">Subir Nuevo Sílabus</label>
+                <input type="file" id="nuevoSilabo" accept="application/pdf">
+
+                <button id="guardarCambiosBtn">Guardar Cambios</button>
+            </div>
+        </div>
+
+        <script>
+            let cursos = [];
+            let cursoSeleccionado = null;
+
+            document.getElementById('crearCursoForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const codigoCurso = document.getElementById('codigoCurso').value;
+                const nombreCurso = document.getElementById('nombreCurso').value;
+                const aula = document.getElementById('aula').value;
+                const seccion = document.getElementById('seccion').value;
+                const silabo = document.getElementById('silabo').files[0].name;
+
+                const curso = {
+                    codigo: codigoCurso,
+                    nombre: nombreCurso,
+                    aula: aula,
+                    seccion: seccion,
+                    silabo: silabo
+                };
+
+                cursos.push(curso);
+                actualizarListaCursos();
+
+                // Limpiar formulario
+                document.getElementById('codigoCurso').value = '';
+                document.getElementById('nombreCurso').value = '';
+                document.getElementById('aula').value = '';
+                document.getElementById('seccion').value = '';
+                document.getElementById('silabo').value = '';
+            });
+
+            function actualizarListaCursos() {
+                const lista = document.getElementById('cursosList');
+                lista.innerHTML = '';
+
+                cursos.forEach((curso, index) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${curso.codigo}</td>
+                        <td>${curso.nombre}</td>
+                        <td>${curso.aula}</td>
+                        <td>${curso.seccion}</td>
+                        <td>
+                            <button onclick="editarCurso(${index})">Editar</button>
+                            <button onclick="eliminarCurso(${index})">Eliminar</button>
+                        </td>
+                    `;
+                    lista.appendChild(tr);
+                });
+            }
+
+            function editarCurso(index) {
+                cursoSeleccionado = index;
+                const curso = cursos[index];
+
+                document.getElementById('editarAula').value = curso.aula;
+                document.getElementById('editarSeccion').value = curso.seccion;
+                document.getElementById('editarCursoModal').style.display = 'block';
+            }
+
+            function eliminarCurso(index) {
+                cursos.splice(index, 1);
+                actualizarListaCursos();
+            }
+
+            document.getElementById('guardarCambiosBtn').addEventListener('click', function () {
+                const aula = document.getElementById('editarAula').value;
+                const seccion = document.getElementById('editarSeccion').value;
+                const nuevoSilabo = document.getElementById('nuevoSilabo').files[0];
+
+                cursos[cursoSeleccionado].aula = aula;
+                cursos[cursoSeleccionado].seccion = seccion;
+
+                if (nuevoSilabo) {
+                    cursos[cursoSeleccionado].silabo = nuevoSilabo.name;
+                }
+
+                actualizarListaCursos();
+                document.getElementById('editarCursoModal').style.display = 'none';
+            });
+
+            document.querySelector('.close').addEventListener('click', function () {
+                document.getElementById('editarCursoModal').style.display = 'none';
+            });
+
+            window.onclick = function (event) {
+                const modal = document.getElementById('editarCursoModal');
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        </script>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel del Profesor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #0066cc;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #004080;
+        }
+
+        nav a:hover {
+            background-color: #003366;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            color: #004080;
+        }
+
+        .logout {
+            background-color: #ff4d4d;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .logout:hover {
+            background-color: #e60000;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index_profesor.html">Panel del Profesor</a>
+        <nav>
+            <a href="crear_curso.html">Crear Curso</a>
+            <a href="definir_rubros.html">Definir Rubros</a>
+            <a href="subir_calificaciones.html">Subir Calificaciones</a>
+            <a href="generar_reporte.html">Generar Reporte</a>
+            <a href="subir_materiales.html">Subir Materiales</a>
+            <a href="login.html" class="logout">Cerrar Sesión</a> <!-- Opción para cerrar sesión -->
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Bienvenido, Profesor</h1>
+        <p>Seleccione una opción en la parte superior para comenzar.</p>
+    </div>
+</body>
+
+</html>

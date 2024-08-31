@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Definir Rubros</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #0066cc;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #004080;
+        }
+
+        nav a:hover {
+            background-color: #003366;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            color: #004080;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        select,
+        input[type="text"],
+        input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 10px;
+            background-color: #e6e6e6;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ccc;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #004080;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index_profesor.html">Panel del Profesor</a>
+        <nav>
+            <a href="crear_curso.html">Crear Curso</a>
+            <a href="definir_rubros.html">Definir Rubros</a>
+            <a href="subir_calificaciones.html">Subir Calificaciones</a>
+            <a href="generar_reporte.html">Generar Reporte</a>
+            <a href="subir_materiales.html">Subir Materiales</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Definir Rubros</h1>
+        <form id="definirRubrosForm">
+            <label for="curso">Seleccionar Curso</label>
+            <select id="curso">
+                <option value="1">Curso 1</option>
+                <option value="2">Curso 2</option>
+            </select>
+
+            <label for="rubro">Seleccionar Rubro</label>
+            <select id="rubro">
+                <option value="Prácticas">Prácticas</option>
+                <option value="Examen Parcial">Examen Parcial</option>
+                <option value="Examen Final">Examen Final</option>
+                <option value="Trabajo Final">Trabajo Final</option>
+                <option value="Otros">Otros</option>
+            </select>
+
+            <div id="nombreRubroDiv" style="display: none;">
+                <label for="nombreRubro">Nombre del Rubro</label>
+                <input type="text" id="nombreRubro">
+            </div>
+
+            <button type="button" id="definirSubRubroBtn">Definir Sub Rubro</button>
+
+            <label for="porcentaje">Porcentaje</label>
+            <input type="text" id="porcentaje" required>
+
+            <button type="submit">Agregar Rubro</button>
+        </form>
+
+        <div class="results">
+            <h3>Rubros Definidos:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Curso</th>
+                        <th>Nombre del Rubro</th>
+                        <th>Porcentaje</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="rubrosList"></tbody>
+            </table>
+        </div>
+
+        <!-- Modal para definir sub rubros -->
+        <div id="subRubroModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Definir Sub Rubro</h2>
+                <label for="nombreSubRubro">Nombre del Sub Rubro</label>
+                <input type="text" id="nombreSubRubro" required>
+
+                <label for="fechaSubRubro">Fecha</label>
+                <input type="date" id="fechaSubRubro" required>
+
+                <button id="agregarSubRubroBtn">Agregar Sub Rubro</button>
+
+                <div class="results" style="margin-top: 20px;">
+                    <h3>Sub Rubros Definidos:</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre del Sub Rubro</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subRubrosList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para editar fecha del sub rubro -->
+        <div id="editarFechaModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Modificar Fecha del Sub Rubro</h2>
+                <label for="nuevaFechaSubRubro">Nueva Fecha</label>
+                <input type="date" id="nuevaFechaSubRubro" required>
+
+                <button id="guardarFechaBtn">Guardar Fecha</button>
+            </div>
+        </div>
+
+        <script>
+            document.getElementById('rubro').addEventListener('change', function () {
+                const nombreRubroDiv = document.getElementById('nombreRubroDiv');
+                if (this.value === 'Otros') {
+                    nombreRubroDiv.style.display = 'block';
+                } else {
+                    nombreRubroDiv.style.display = 'none';
+                }
+            });
+
+            // Mostrar y ocultar modal para agregar sub rubros
+            const modal = document.getElementById("subRubroModal");
+            const btn = document.getElementById("definirSubRubroBtn");
+            const span = document.getElementsByClassName("close")[0];
+
+            btn.onclick = function () {
+                modal.style.display = "block";
+            }
+
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            // Mostrar y ocultar modal para editar fecha del sub rubro
+            const editarFechaModal = document.getElementById("editarFechaModal");
+            const spanEditarFecha = document.getElementsByClassName("close")[1];
+
+            spanEditarFecha.onclick = function () {
+                editarFechaModal.style.display = "none";
+            }
+
+            window.onclick = function (event) {
+                if (event.target == editarFechaModal) {
+                    editarFechaModal.style.display = "none";
+                }
+            }
+
+            let currentRowToUpdate = null;
+
+            // Agregar sub rubros
+            document.getElementById('agregarSubRubroBtn').addEventListener('click', function () {
+                const nombreSubRubro = document.getElementById('nombreSubRubro').value;
+                const fechaSubRubro = document.getElementById('fechaSubRubro').value;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${nombreSubRubro}</td>
+                    <td class="action-buttons">
+                        <button onclick="eliminarSubRubro(this)">Eliminar</button>
+                        <button onclick="modificarFechaSubRubro(this)">Modificar Fecha</button>
+                    </td>
+                `;
+                document.getElementById('subRubrosList').appendChild(tr);
+
+                // Limpiar campos
+                document.getElementById('nombreSubRubro').value = '';
+                document.getElementById('fechaSubRubro').value = '';
+            });
+
+            function eliminarSubRubro(button) {
+                const row = button.parentNode.parentNode;
+                row.parentNode.removeChild(row);
+            }
+
+            function modificarFechaSubRubro(button) {
+                currentRowToUpdate = button.parentNode.parentNode;
+                editarFechaModal.style.display = "block";
+            }
+
+            document.getElementById('guardarFechaBtn').addEventListener('click', function () {
+                const nuevaFecha = document.getElementById('nuevaFechaSubRubro').value;
+                if (nuevaFecha) {
+                    alert('Fecha actualizada a: ' + nuevaFecha);
+                    editarFechaModal.style.display = "none";
+                }
+            });
+
+            // Agregar rubro al curso
+            document.getElementById('definirRubrosForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const curso = document.getElementById('curso').value;
+                const rubro = document.getElementById('rubro').value;
+                const porcentaje = document.getElementById('porcentaje').value;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${curso}</td><td>${rubro}</td><td>${porcentaje}%</td><td><button onclick="eliminarRubro(this)">Eliminar</button></td>`;
+                document.getElementById('rubrosList').appendChild(tr);
+
+                document.getElementById('porcentaje').value = '';
+
+                alert('Rubro agregado exitosamente.');
+            });
+
+            function eliminarRubro(button) {
+                const row = button.parentNode.parentNode;
+                row.parentNode.removeChild(row);
+            }
+        </script>
+    </div>
+</body>
+
+</html>

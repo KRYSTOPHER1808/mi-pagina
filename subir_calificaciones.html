@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Calificaciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #0066cc;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #004080;
+        }
+
+        nav a:hover {
+            background-color: #003366;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            color: #004080;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ccc;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #004080;
+            color: white;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 6px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html">Panel del Profesor</a> <!-- Enlace al inicio -->
+        <nav>
+            <a href="crear_curso.html">Crear Curso</a>
+            <a href="definir_rubros.html">Definir Rubros</a>
+            <a href="subir_calificaciones.html">Subir Calificaciones</a>
+            <a href="generar_reporte.html">Generar Reporte</a>
+            <a href="subir_materiales.html">Subir Materiales</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Subir Calificaciones</h1>
+        <form id="seleccionarCursoRubroForm">
+            <label for="curso">Seleccionar Curso</label>
+            <select id="curso">
+                <option value="1">Curso 1</option>
+                <option value="2">Curso 2</option>
+            </select>
+
+            <label for="rubro">Seleccionar Rubro</label>
+            <select id="rubro">
+                <option value="1">Prácticas</option>
+                <option value="2">Examen Final</option>
+            </select>
+
+            <button type="submit">Mostrar Alumnos</button>
+        </form>
+
+        <div id="tablaAlumnos" style="display:none;">
+            <h3>Calificaciones para el Rubro Seleccionado:</h3>
+            <form id="subirCalificacionesForm">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código Alumno</th>
+                            <th>Nombre</th>
+                            <th>Calificación</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaAlumnos"></tbody>
+                </table>
+                <button type="submit">Subir Calificaciones</button>
+            </form>
+        </div>
+
+        <script>
+            const alumnosSimulados = {
+                "1": [
+                    { codigo: "A001", nombre: "Juan Pérez" },
+                    { codigo: "A002", nombre: "María López" },
+                    { codigo: "A003", nombre: "Carlos García" }
+                ],
+                "2": [
+                    { codigo: "B001", nombre: "Ana Sánchez" },
+                    { codigo: "B002", nombre: "Luis Torres" }
+                ]
+            };
+
+            document.getElementById('seleccionarCursoRubroForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const curso = document.getElementById('curso').value;
+                const alumnos = alumnosSimulados[curso] || [];
+
+                const listaAlumnos = document.getElementById('listaAlumnos');
+                listaAlumnos.innerHTML = ''; // Limpiar lista de alumnos
+
+                alumnos.forEach(alumno => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${alumno.codigo}</td>
+                        <td>${alumno.nombre}</td>
+                        <td><input type="text" name="calificacion-${alumno.codigo}" placeholder="Ingrese calificación"></td>
+                        <td><button type="button" disabled onclick="editarCalificacion(this)">Editar</button></td>
+                    `;
+                    listaAlumnos.appendChild(tr);
+                });
+
+                document.getElementById('tablaAlumnos').style.display = 'block';
+            });
+
+            document.getElementById('subirCalificacionesForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const inputs = document.querySelectorAll('#listaAlumnos input[type="text"]');
+                inputs.forEach(input => {
+                    input.disabled = true; // Deshabilitar campo de calificación
+                });
+
+                const buttons = document.querySelectorAll('#listaAlumnos button');
+                buttons.forEach(button => {
+                    button.disabled = false; // Habilitar botón de editar
+                });
+
+                alert('Calificaciones subidas exitosamente.');
+            });
+
+            function editarCalificacion(button) {
+                const input = button.parentNode.parentNode.querySelector('input[type="text"]');
+                input.disabled = false;
+                input.focus();
+                button.disabled = true; // Deshabilitar el botón de editar hasta que se guarden los cambios
+            }
+        </script>
+    </div>
+</body>
+
+</html>
