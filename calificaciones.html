@@ -56,62 +56,6 @@
             color: #004080;
         }
 
-        .button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin-top: 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .button:hover {
-            background-color: #45a049;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0, 0, 0);
-            background-color: rgba(0, 0, 0, 0.4);
-            padding-top: 60px;
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 700px;
-            border-radius: 10px;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -135,17 +79,71 @@
             color: white;
         }
 
-        tbody {
-            display: block;
-            max-height: 300px;
-            overflow-y: auto;
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
         }
 
-        thead,
-        tbody tr {
-            display: table;
-            width: 100%;
-            table-layout: fixed;
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        .table-container {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 20px;
+            border: 1px solid #ddd;
         }
     </style>
 </head>
@@ -154,44 +152,41 @@
     <header>
         <a href="index_profesor.html">Panel del Profesor</a>
         <nav>
-            <a href="crear_curso.html">Crear Curso</a>
-            <a href="definir_rubros.html">Definir Rubros</a>
-            <a href="calificaciones.html">Calificaciones</a>
-            <a href="generar_reporte.html">Generar Reporte</a>
-            <a href="subir_materiales.html">Subir Materiales</a>
-            <a href="login.html" class="logout">Cerrar Sesión</a>
+            <a href="#" id="subirCalificacionesBtn">Subir Calificaciones</a>
+            <a href="#" id="listarCalificacionesBtn">Listar Calificaciones</a>
         </nav>
     </header>
     <div class="container">
         <h1>Calificaciones</h1>
         <p>¿Qué desea realizar?</p>
-        <button id="openModalBtn" class="button">Subir Calificaciones</button>
-        <button id="openListarModalBtn" class="button">Listar Calificaciones</button>
+        <button class="button" id="subirCalificaciones">Subir Calificaciones</button>
+        <button class="button" id="listarCalificaciones">Listar Calificaciones</button>
+    </div>
 
-        <div id="subirCalificacionesModal" class="modal">
-            <div class="modal-content">
-                <span class="close" id="closeModalBtn">&times;</span>
-                <h2>Subir Calificaciones</h2>
-                <div>
-                    <label for="cursoSelect">Seleccionar Curso</label>
-                    <select id="cursoSelect">
-                        <option value="Curso 1">Curso 1</option>
-                        <option value="Curso 2">Curso 2</option>
-                    </select>
-                    <label for="aulaSelect">Seleccionar Aula</label>
-                    <select id="aulaSelect">
-                        <option value="Aula 101">Aula 101</option>
-                        <option value="Aula 102">Aula 102</option>
-                    </select>
-                    <label for="rubroSelect">Seleccionar Rubro</label>
-                    <select id="rubroSelect">
-                        <option value="Prácticas">Prácticas</option>
-                        <option value="Examen Final">Examen Final</option>
-                    </select>
-                    <button id="mostrarAlumnosBtn" class="button">Mostrar Alumnos</button>
-                </div>
+    <!-- Modal para Subir Calificaciones -->
+    <div id="subirModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeSubirModal">&times;</span>
+            <h2>Subir Calificaciones</h2>
+            <label for="cursoSelect">Seleccionar Curso</label>
+            <select id="cursoSelect">
+                <option value="curso1">Curso 1</option>
+                <option value="curso2">Curso 2</option>
+            </select>
+            <label for="aulaSelect">Seleccionar Aula</label>
+            <select id="aulaSelect">
+                <option value="aula101">Aula 101</option>
+                <option value="aula102">Aula 102</option>
+            </select>
+            <label for="rubroSelect">Seleccionar Rubro</label>
+            <select id="rubroSelect">
+                <option value="practicas">Prácticas</option>
+                <option value="examenFinal">Examen Final</option>
+            </select>
+            <button class="button" id="mostrarAlumnosBtn">Mostrar Alumnos</button>
 
-                <table>
+            <div class="table-container">
+                <table id="alumnosTable">
                     <thead>
                         <tr>
                             <th>Código Alumno</th>
@@ -201,6 +196,7 @@
                         </tr>
                     </thead>
                     <tbody id="alumnosTableBody">
+                        <!-- Filas de ejemplo, se llenarán dinámicamente -->
                         <tr>
                             <td>A001</td>
                             <td>Juan Pérez</td>
@@ -221,29 +217,31 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="button" id="subirCalificacionesBtn">Subir Calificaciones</button>
             </div>
+
+            <button class="button" id="subirCalificacionesBtn">Subir Calificaciones</button>
         </div>
+    </div>
 
-        <div id="listarCalificacionesModal" class="modal">
-            <div class="modal-content">
-                <span class="close" id="closeListarModalBtn">&times;</span>
-                <h2>Listar Calificaciones</h2>
-                <div>
-                    <label for="cursoListarSelect">Seleccionar Curso</label>
-                    <select id="cursoListarSelect">
-                        <option value="Curso 1">Curso 1</option>
-                        <option value="Curso 2">Curso 2</option>
-                    </select>
-                    <label for="aulaListarSelect">Seleccionar Aula</label>
-                    <select id="aulaListarSelect">
-                        <option value="Aula 101">Aula 101</option>
-                        <option value="Aula 102">Aula 102</option>
-                    </select>
-                    <button id="listarCalificacionesBtn" class="button">Mostrar Calificaciones</button>
-                </div>
+    <!-- Modal para Listar Calificaciones -->
+    <div id="listarModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeListarModal">&times;</span>
+            <h2>Listar Calificaciones</h2>
+            <label for="cursoListarSelect">Seleccionar Curso</label>
+            <select id="cursoListarSelect">
+                <option value="curso1">Curso 1</option>
+                <option value="curso2">Curso 2</option>
+            </select>
+            <label for="aulaListarSelect">Seleccionar Aula</label>
+            <select id="aulaListarSelect">
+                <option value="aula101">Aula 101</option>
+                <option value="aula102">Aula 102</option>
+            </select>
+            <button class="button" id="mostrarCalificacionesBtn">Mostrar Calificaciones</button>
 
-                <table>
+            <div class="table-container">
+                <table id="calificacionesTable">
                     <thead>
                         <tr>
                             <th>Código Alumno</th>
@@ -253,7 +251,7 @@
                         </tr>
                     </thead>
                     <tbody id="calificacionesTableBody">
-                        <!-- Las filas se agregarán dinámicamente -->
+                        <!-- Las filas se llenarán dinámicamente aquí -->
                     </tbody>
                 </table>
             </div>
@@ -261,72 +259,120 @@
     </div>
 
     <script>
-        var modal = document.getElementById("subirCalificacionesModal");
-        var openModalBtn = document.getElementById("openModalBtn");
-        var closeModalBtn = document.getElementById("closeModalBtn");
+        // Función para formatear las notas
+        function formatearNotas(notas) {
+            return notas.map(function (nota) {
+                var tipo = nota.tipo;
+                var calificaciones = nota.calificaciones.join(', ');
 
-        var listarModal = document.getElementById("listarCalificacionesModal");
-        var openListarModalBtn = document.getElementById("openListarModalBtn");
-        var closeListarModalBtn = document.getElementById("closeListarModalBtn");
-
-        openModalBtn.onclick = function () {
-            modal.style.display = "block";
+                switch (tipo) {
+                    case 'Pcs':
+                        return 'Pcs: ' + calificaciones;
+                    case 'EF':
+                        return 'EF: ' + calificaciones;
+                    case 'EP':
+                        return 'EP: ' + calificaciones;
+                    case 'T':
+                        return 'T: ' + calificaciones;
+                    case 'TF':
+                        return 'TF: ' + calificaciones;
+                    default:
+                        return tipo + ': ' + calificaciones;
+                }
+            }).join(' | ');
         }
 
-        closeModalBtn.onclick = function () {
-            modal.style.display = "none";
-        }
+        // Funcionalidad para abrir y cerrar los modales
+        var subirModal = document.getElementById('subirModal');
+        var listarModal = document.getElementById('listarModal');
+        var closeSubirModal = document.getElementById('closeSubirModal');
+        var closeListarModal = document.getElementById('closeListarModal');
+        var subirCalificaciones = document.getElementById('subirCalificaciones');
+        var listarCalificaciones = document.getElementById('listarCalificaciones');
 
-        openListarModalBtn.onclick = function () {
-            listarModal.style.display = "block";
-        }
+        subirCalificaciones.onclick = function () {
+            subirModal.style.display = 'block';
+        };
 
-        closeListarModalBtn.onclick = function () {
-            listarModal.style.display = "none";
-        }
+        listarCalificaciones.onclick = function () {
+            listarModal.style.display = 'block';
+        };
+
+        closeSubirModal.onclick = function () {
+            subirModal.style.display = 'none';
+        };
+
+        closeListarModal.onclick = function () {
+            listarModal.style.display = 'none';
+        };
 
         window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
+            if (event.target == subirModal) {
+                subirModal.style.display = 'none';
+            } else if (event.target == listarModal) {
+                listarModal.style.display = 'none';
             }
-            if (event.target == listarModal) {
-                listarModal.style.display = "none";
+        };
+
+        // Simulación de datos para mostrar calificaciones
+        var datosCalificaciones = [
+            {
+                codigo: 'A001',
+                nombre: 'Juan Pérez',
+                notas: [
+                    { tipo: 'Pcs', calificaciones: [15, 18, 20] },
+                    { tipo: 'EF', calificaciones: [17] },
+                    { tipo: 'EP', calificaciones: [16] },
+                    { tipo: 'T', calificaciones: [14] },
+                    { tipo: 'TF', calificaciones: [18] }
+                ],
+                promedioFinal: 17.66
+            },
+            {
+                codigo: 'A002',
+                nombre: 'María López',
+                notas: [
+                    { tipo: 'Pcs', calificaciones: [14, 17, 19] },
+                    { tipo: 'EF', calificaciones: [15] },
+                    { tipo: 'EP', calificaciones: [17] },
+                    { tipo: 'T', calificaciones: [13] },
+                    { tipo: 'TF', calificaciones: [16] }
+                ],
+                promedioFinal: 16.66
+            },
+            {
+                codigo: 'A003',
+                nombre: 'Carlos García',
+                notas: [
+                    { tipo: 'Pcs', calificaciones: [13, 15, 17] },
+                    { tipo: 'EF', calificaciones: [14] },
+                    { tipo: 'EP', calificaciones: [12] },
+                    { tipo: 'T', calificaciones: [10] },
+                    { tipo: 'TF', calificaciones: [15] }
+                ],
+                promedioFinal: 15.00
             }
-        }
+        ];
 
-        document.getElementById('listarCalificacionesBtn').onclick = function () {
-            var tableBody = document.getElementById('calificacionesTableBody');
-            tableBody.innerHTML = ''; // Limpiar la tabla antes de llenarla
+        // Funcionalidad para listar calificaciones
+        document.getElementById('mostrarCalificacionesBtn').onclick = function () {
+            var tbody = document.getElementById('calificacionesTableBody');
+            tbody.innerHTML = ''; // Limpiar la tabla antes de llenarla
 
-            // Ejemplo de cómo se podrían llenar las calificaciones
-            var alumnos = [
-                { codigo: 'A001', nombre: 'Juan Pérez', notas: [15, 18, 20], promedio: 17.66 },
-                { codigo: 'A002', nombre: 'María López', notas: [14, 17, 19], promedio: 16.66 },
-                { codigo: 'A003', nombre: 'Carlos García', notas: [13, 15, 17], promedio: 15 }
-            ];
+            datosCalificaciones.forEach(function (dato) {
+                var row = tbody.insertRow();
 
-            alumnos.forEach(function (alumno) {
-                var row = document.createElement('tr');
+                var cellCodigo = row.insertCell(0);
+                var cellNombre = row.insertCell(1);
+                var cellNotas = row.insertCell(2);
+                var cellPromedio = row.insertCell(3);
 
-                var codigoCell = document.createElement('td');
-                codigoCell.textContent = alumno.codigo;
-                row.appendChild(codigoCell);
-
-                var nombreCell = document.createElement('td');
-                nombreCell.textContent = alumno.nombre;
-                row.appendChild(nombreCell);
-
-                var notasCell = document.createElement('td');
-                notasCell.textContent = alumno.notas.join(', ');
-                row.appendChild(notasCell);
-
-                var promedioCell = document.createElement('td');
-                promedioCell.textContent = alumno.promedio.toFixed(2);
-                row.appendChild(promedioCell);
-
-                tableBody.appendChild(row);
+                cellCodigo.textContent = dato.codigo;
+                cellNombre.textContent = dato.nombre;
+                cellNotas.textContent = formatearNotas(dato.notas);
+                cellPromedio.textContent = dato.promedioFinal.toFixed(2);
             });
-        }
+        };
     </script>
 </body>
 
