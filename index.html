@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,7 @@
             align-items: center;
             height: 100vh;
         }
+
         .login-container {
             background-color: white;
             padding: 30px;
@@ -23,11 +25,14 @@
             width: 300px;
             text-align: center;
         }
+
         h1 {
             color: #0066cc;
             margin-bottom: 20px;
         }
-        input[type="email"], input[type="password"] {
+
+        input[type="email"],
+        input[type="password"] {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -35,6 +40,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+
         button {
             padding: 10px 20px;
             background-color: #4CAF50;
@@ -45,11 +51,13 @@
             width: 100%;
             margin-top: 10px;
         }
+
         button:hover {
             background-color: #45a049;
         }
     </style>
 </head>
+
 <body>
 
     <div class="login-container">
@@ -62,7 +70,7 @@
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
             const correo = document.getElementById('correo').value;
@@ -81,4 +89,5 @@
     </script>
 
 </body>
+
 </html>
