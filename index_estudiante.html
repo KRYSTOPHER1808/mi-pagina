@@ -234,50 +234,7 @@
                 errorMessage.style.display = "none"; // Hide error message when clicking outside
             }
         }
-        document.addEventListener('DOMContentLoaded', function () {
-            const correo = '0512021025@alumnos.unp.edu.pe'; // Aquí colocas el correo del estudiante autenticado
 
-            fetch(`/cursos?correo=${correo}`)
-                .then(response => response.json())
-                .then(cursos => {
-                    const tableBody = document.getElementById('coursesTable').getElementsByTagName('tbody')[0];
-
-                    cursos.forEach(curso => {
-                        const row = tableBody.insertRow();
-                        row.innerHTML = `<td>${curso.codigoCurso}</td><td>${curso.nombreCurso}</td><td>${curso.aula}</td><td>${curso.seccion}</td>`;
-                    });
-                })
-                .catch(error => {
-                    console.error('Error al cargar los cursos:', error);
-                });
-        });
-        enterCourseBtn.onclick = function () {
-            var courseCode = document.getElementById("courseCodeInput").value;
-
-            // Realizar una petición al servidor para verificar el código del curso
-            fetch('/cursos')
-                .then(response => response.json())
-                .then(data => {
-                    const curso = data.find(c => c.codigoCurso === courseCode);
-
-                    if (!curso) {
-                        errorMessage.style.display = "block";
-                    } else {
-                        // Si el curso existe, se agrega a la tabla
-                        var table = document.getElementById("coursesTable").getElementsByTagName('tbody')[0];
-                        var newRow = table.insertRow();
-                        newRow.innerHTML = `<td>${curso.codigoCurso}</td><td>${curso.nombreCurso}</td><td>${curso.aula}</td><td>${curso.seccion}</td>`;
-
-                        modal.style.display = "none";
-                        errorMessage.style.display = "none"; // Ocultar mensaje de error tras añadir el curso
-                    }
-                })
-                .catch(error => {
-                    console.error('Error al verificar el curso:', error);
-                    errorMessage.style.display = "block";
-                    errorMessage.textContent = "Hubo un problema al verificar el curso. Inténtalo de nuevo.";
-                });
-        };
 
     </script>
 </body>
