@@ -161,7 +161,7 @@
         <nav>
             <a href="consultar_calificaciones.html">Consultar Calificaciones</a>
             <a href="calcular_notas.html">Calcular Notas</a>
-            <a href="descargar_materiales.html">Descargar Materiales</a>
+            <a href="comunicadoA.html">comunicado</a>
             <a href="index.html" class="logout">Cerrar Sesión</a> <!-- Opción para cerrar sesión -->
         </nav>
     </header>
@@ -234,24 +234,51 @@
                 errorMessage.style.display = "none"; // Hide error message when clicking outside
             }
         }
+        document.addEventListener('DOMContentLoaded', function () {
+            const correo = '0512021025@alumnos.unp.edu.pe'; // Aquí colocas el correo del estudiante autenticado
 
+            fetch(`/cursos?correo=${correo}`)
+                .then(response => response.json())
+                .then(cursos => {
+                    const tableBody = document.getElementById('coursesTable').getElementsByTagName('tbody')[0];
+
+                    cursos.forEach(curso => {
+                        const row = tableBody.insertRow();
+                        row.innerHTML = `<td>${curso.codigoCurso}</td><td>${curso.nombreCurso}</td><td>${curso.aula}</td><td>${curso.seccion}</td>`;
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al cargar los cursos:', error);
+                });
+        });
         enterCourseBtn.onclick = function () {
             var courseCode = document.getElementById("courseCodeInput").value;
 
-            // Aquí debes implementar la lógica para verificar el código del curso
-            // Este es un ejemplo básico que siempre dará error. Deberías reemplazarlo con tu lógica.
-            if (courseCode !== "CS101") {
-                errorMessage.style.display = "block";
-            } else {
-                // Aquí deberías agregar la lógica para actualizar la tabla con el nuevo curso
-                var table = document.getElementById("coursesTable").getElementsByTagName('tbody')[0];
-                var newRow = table.insertRow();
-                newRow.innerHTML = "<td>" + courseCode + "</td><td>Nombre del Curso</td><td>Aula XYZ</td><td>Sección 1</td>";
+            // Realizar una petición al servidor para verificar el código del curso
+            fetch('/cursos')
+                .then(response => response.json())
+                .then(data => {
+                    const curso = data.find(c => c.codigoCurso === courseCode);
 
-                modal.style.display = "none";
-                errorMessage.style.display = "none"; // Hide error message after successful addition
-            }
-        }
+                    if (!curso) {
+                        errorMessage.style.display = "block";
+                    } else {
+                        // Si el curso existe, se agrega a la tabla
+                        var table = document.getElementById("coursesTable").getElementsByTagName('tbody')[0];
+                        var newRow = table.insertRow();
+                        newRow.innerHTML = `<td>${curso.codigoCurso}</td><td>${curso.nombreCurso}</td><td>${curso.aula}</td><td>${curso.seccion}</td>`;
+
+                        modal.style.display = "none";
+                        errorMessage.style.display = "none"; // Ocultar mensaje de error tras añadir el curso
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al verificar el curso:', error);
+                    errorMessage.style.display = "block";
+                    errorMessage.textContent = "Hubo un problema al verificar el curso. Inténtalo de nuevo.";
+                });
+        };
+
     </script>
 </body>
 

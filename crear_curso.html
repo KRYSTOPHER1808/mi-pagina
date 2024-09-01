@@ -62,8 +62,7 @@
             color: #333;
         }
 
-        input[type="text"],
-        input[type="file"] {
+        input[type="text"] {
             width: 100%;
             padding: 8px;
             margin-top: 5px;
@@ -160,8 +159,7 @@
             <a href="crear_curso.html">Crear Curso</a>
             <a href="definir_rubros.html">Definir Rubros</a>
             <a href="calificaciones.html">Calificaciones</a>
-            <a href="generar_reporte.html">Generar Reporte</a>
-            <a href="subir_materiales.html">Subir Materiales</a>
+            <a href="comunicadoP.html">comunicado</a>
         </nav>
     </header>
     <div class="container">
@@ -178,9 +176,6 @@
 
             <label for="seccion">Sección</label>
             <input type="text" id="seccion" required>
-
-            <label for="silabo">Subir Sílabus</label>
-            <input type="file" id="silabo" accept="application/pdf" required>
 
             <button type="submit">Agregar Curso</button>
         </form>
@@ -212,9 +207,6 @@
                 <label for="editarSeccion">Modificar Sección</label>
                 <input type="text" id="editarSeccion" required>
 
-                <label for="nuevoSilabo">Subir Nuevo Sílabus</label>
-                <input type="file" id="nuevoSilabo" accept="application/pdf">
-
                 <button id="guardarCambiosBtn">Guardar Cambios</button>
             </div>
         </div>
@@ -229,14 +221,12 @@
                 const nombreCurso = document.getElementById('nombreCurso').value;
                 const aula = document.getElementById('aula').value;
                 const seccion = document.getElementById('seccion').value;
-                const silabo = document.getElementById('silabo').files[0].name;
 
                 const curso = {
                     codigo: codigoCurso,
                     nombre: nombreCurso,
                     aula: aula,
-                    seccion: seccion,
-                    silabo: silabo
+                    seccion: seccion
                 };
 
                 cursos.push(curso);
@@ -247,7 +237,6 @@
                 document.getElementById('nombreCurso').value = '';
                 document.getElementById('aula').value = '';
                 document.getElementById('seccion').value = '';
-                document.getElementById('silabo').value = '';
             });
 
             function actualizarListaCursos() {
@@ -287,14 +276,9 @@
             document.getElementById('guardarCambiosBtn').addEventListener('click', function () {
                 const aula = document.getElementById('editarAula').value;
                 const seccion = document.getElementById('editarSeccion').value;
-                const nuevoSilabo = document.getElementById('nuevoSilabo').files[0];
 
                 cursos[cursoSeleccionado].aula = aula;
                 cursos[cursoSeleccionado].seccion = seccion;
-
-                if (nuevoSilabo) {
-                    cursos[cursoSeleccionado].silabo = nuevoSilabo.name;
-                }
 
                 actualizarListaCursos();
                 document.getElementById('editarCursoModal').style.display = 'none';

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Comunicados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #0066cc;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #004080;
+        }
+
+        nav a:hover {
+            background-color: #003366;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            color: #004080;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        select,
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 10px;
+            background-color: #e6e6e6;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ccc;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #004080;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index_profesor.html">Panel del Profesor</a>
+        <nav>
+            <a href="crear_curso.html">Crear Curso</a>
+            <a href="definir_rubros.html">Definir Rubros</a>
+            <a href="calificaciones.html">Calificaciones</a>
+            <a href="generar_reporte.html">Generar Reporte</a>
+            <a href="comunicadoP.html">Comunicado</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Subir Comunicados</h1>
+        <form id="subirComunicadoForm">
+            <label for="curso">Seleccionar Curso</label>
+            <select id="curso" required>
+                <option value="CS101">Introducción a la Computación</option>
+                <option value="CS102">Estructura de Datos</option>
+                <!-- Agregar más opciones de cursos según sea necesario -->
+            </select>
+
+            <label for="aula">Aula</label>
+            <input type="text" id="aula" required>
+
+            <label for="seccion">Sección</label>
+            <input type="text" id="seccion" required>
+
+            <label for="comunicado">Escribir Comunicado</label>
+            <textarea id="comunicado" rows="4" required></textarea>
+
+            <button type="submit">Subir Comunicado</button>
+        </form>
+
+        <div class="results">
+            <h3>Comunicados Subidos:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Curso</th>
+                        <th>Aula</th>
+                        <th>Sección</th>
+                        <th>Comunicado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="comunicadosList"></tbody>
+            </table>
+        </div>
+
+        <script>
+            document.getElementById('subirComunicadoForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const curso = document.getElementById('curso').value;
+                const aula = document.getElementById('aula').value;
+                const seccion = document.getElementById('seccion').value;
+                const comunicado = document.getElementById('comunicado').value;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${curso}</td><td>${aula}</td><td>${seccion}</td><td>${comunicado}</td><td><button onclick="eliminarComunicado(this)">Eliminar</button></td>`;
+                document.getElementById('comunicadosList').appendChild(tr);
+
+                // Limpiar el formulario
+                document.getElementById('curso').value = '';
+                document.getElementById('aula').value = '';
+                document.getElementById('seccion').value = '';
+                document.getElementById('comunicado').value = '';
+            });
+
+            function eliminarComunicado(button) {
+                const row = button.parentNode.parentNode;
+                row.parentNode.removeChild(row);
+            }
+        </script>
+    </div>
+</body>
+
+</html>

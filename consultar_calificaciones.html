@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
             margin: 0;
             padding: 0;
         }
+
         header {
             background-color: #0066cc;
             color: white;
@@ -19,16 +21,19 @@
             justify-content: space-between;
             align-items: center;
         }
+
         header a {
             color: white;
             text-decoration: none;
             font-size: 20px;
             font-weight: bold;
         }
+
         nav {
             display: flex;
             gap: 15px;
         }
+
         nav a {
             color: white;
             text-decoration: none;
@@ -38,26 +43,32 @@
             border-radius: 5px;
             background-color: #004080;
         }
+
         nav a:hover {
             background-color: #003366;
         }
+
         .container {
             padding: 20px;
         }
+
         h1 {
             color: #004080;
         }
+
         label {
             display: block;
             margin-top: 10px;
             color: #333;
         }
+
         select {
             width: 100%;
             padding: 8px;
             margin-top: 5px;
             box-sizing: border-box;
         }
+
         button {
             margin-top: 20px;
             padding: 10px 15px;
@@ -67,9 +78,11 @@
             cursor: pointer;
             border-radius: 5px;
         }
+
         button:hover {
             background-color: #45a049;
         }
+
         .results {
             margin-top: 30px;
             padding: 10px;
@@ -78,30 +91,38 @@
             max-height: 200px;
             overflow-y: auto;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
-        table, th, td {
+
+        table,
+        th,
+        td {
             border: 1px solid #ccc;
         }
-        th, td {
+
+        th,
+        td {
             padding: 8px;
             text-align: left;
         }
+
         th {
             background-color: #004080;
             color: white;
         }
     </style>
 </head>
+
 <body>
     <header>
         <a href="index_estudiante.html">Panel del Estudiante</a>
         <nav>
             <a href="consultar_calificaciones.html">Consultar Calificaciones</a>
             <a href="calcular_notas.html">Calcular Notas</a>
-            <a href="descargar_materiales.html">Descargar Materiales</a>
+            <a href="comunicadoP.html">comunicado</a>
         </nav>
     </header>
     <div class="container">
@@ -133,7 +154,7 @@
         </div>
 
         <script>
-            document.getElementById('consultarCalificacionesForm').addEventListener('submit', function(e) {
+            document.getElementById('consultarCalificacionesForm').addEventListener('submit', function (e) {
                 e.preventDefault();
 
                 // Datos simulados
@@ -161,4 +182,5 @@
         </script>
     </div>
 </body>
+
 </html>
